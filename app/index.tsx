@@ -1,3 +1,4 @@
+import { AddButton } from "../components";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -30,9 +31,9 @@ export default function App() {
 		setData(prevData => prevData.map(item => (item.id === id ? { ...item, isChecked: !item.isChecked } : item)));
 	};
 
-	const Col: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-		<View style={{ flexDirection: "column" }}>{children}</View>
-	);
+	// const Col: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+	// 	<View style={{ flexDirection: "column" }}>{children}</View>
+	// );
 
 	const Item = ({ title, description, id, isChecked }: Todo) => (
 		<View style={{ alignItems: "center", flexDirection: "row", gap: 20, margin: 10, padding: 10 }}>
@@ -49,6 +50,7 @@ export default function App() {
 			<Text style={{ alignSelf: "flex-start", fontSize: 32, padding: 20 }}>All Tasks</Text>
 			<StatusBar style="auto" />
 			<FlatList data={data} keyExtractor={item => item.id} renderItem={({ item }) => <Item {...item} />} />
+			<AddButton onPress={() => console.log("works")} />
 		</View>
 	);
 }
