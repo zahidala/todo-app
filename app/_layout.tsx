@@ -1,23 +1,23 @@
-import { Tabs } from 'expo-router/tabs';
+import { Tabs } from "expo-router/tabs";
 
 export default function Layout() {
-  return (
-    <Tabs>
-      <Tabs.Screen
-        name="index"
-        options={{
-          href: "/",
-          headerTitle: "All Tasks",
-          headerStyle: {
-            backgroundColor: 'blue'
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold'
-          },
-          tabBarLabel: "All Tasks"
-        }}
-      />
-    </Tabs>
-  )
+	return (
+		<Tabs>
+			<Tabs.Screen
+				name="index"
+				options={{
+					headerStyle: {
+						backgroundColor: "blue",
+					},
+					headerTintColor: "#fff",
+					headerTitle: "All Tasks",
+					headerTitleStyle: {
+						fontWeight: "bold",
+					},
+					href: "/",
+					tabBarLabel: "All Tasks",
+				}}
+			/>
+		</Tabs>
+	);
 }

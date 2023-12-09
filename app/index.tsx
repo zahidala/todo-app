@@ -1,67 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import Checkbox from 'expo-checkbox';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import Checkbox from "expo-checkbox";
 
 export default function App() {
+	interface Todo {
+		id: string;
+		title: string;
+		description: string;
+		isChecked: boolean;
+	}
 
-  interface Todo {
-    id: string;
-    title: string;
-    description: string;
-    isChecked: boolean
-  }
+	const [data, setData] = useState<Todo[]>([
+		{
+			description: "this is my first todo.",
+			id: "1",
+			isChecked: false,
+			title: "First todo",
+		},
+		{
+			description: "this is my second todo.",
+			id: "2",
+			isChecked: false,
+			title: "Second todo",
+		},
+	]);
 
-  const [data, setData] = useState<Todo[]>([
-    {
-      id: "1",
-      title: "First todo",
-      description: "this is my first todo.",
-      isChecked: false,
-    },
-    {
-      id: "2",
-      title: "Second todo",
-      description: "this is my second todo.",
-      isChecked: false,
-    },
-  ])
+	const setCheckBoxValue = (id: string) => {
+		setData(prevData => prevData.map(item => (item.id === id ? { ...item, isChecked: !item.isChecked } : item)));
+	};
 
-  const setCheckBoxValue = (id: string) => {
-    setData((prevData) => 
-      prevData.map((item) =>item.id === id ? {...item, isChecked: !item.isChecked } : item
-      )
-    );
-  }
+	const Col: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+		<View style={{ flexDirection: "column" }}>{children}</View>
+	);
 
-  console.log(data)
+	const Item = ({ title, description, id, isChecked }: Todo) => (
+		<View style={{ alignItems: "center", flexDirection: "row", gap: 20, margin: 10, padding: 10 }}>
+			<Checkbox value={isChecked} onValueChange={() => setCheckBoxValue(id)} />
+			<View style={{ flexDirection: "column", gap: 10 }}>
+				<Text style={{ fontSize: 15, fontWeight: "bold" }}>{title} </Text>
+				<Text>{description} </Text>
+			</View>
+		</View>
+	);
 
-  const Col: React.FC<{ children: React.ReactNode}> = ({ children }) => (
-    <View style={{flexDirection: 'column'}}>{children}</View>
-  )
-
-  const Item = ({ title, description, id, isChecked } : Todo) => (
-    <View style={{padding: 10, margin: 10, flexDirection: 'row', gap: 20, alignItems: 'center'}}>
-      <Checkbox value={isChecked} onValueChange={ () => setCheckBoxValue(id)} />
-      <View style={{flexDirection: 'column', gap: 10}}>
-      <Text style={{fontWeight: 'bold', fontSize: 15}}>{title} </Text>
-      <Text>{description} </Text>
-      </View>
-    </View>
-  );
-
-   return (
-    <View style={styles.container}>
-      <Text style={{padding: 20, fontSize: 32, alignSelf: "flex-start"}}>All Tasks</Text>
-      <StatusBar style='auto'/>
-      <FlatList data={data} renderItem={({item}) => <Item {...item} />} keyExtractor={item => item.id} />
-    </View>
-  );
+	return (
+		<View style={styles.container}>
+			<Text style={{ alignSelf: "flex-start", fontSize: 32, padding: 20 }}>All Tasks</Text>
+			<StatusBar style="auto" />
+			<FlatList data={data} keyExtractor={item => item.id} renderItem={({ item }) => <Item {...item} />} />
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+	container: {
+		backgroundColor: "#fff",
+		flex: 1,
+	},
 });
