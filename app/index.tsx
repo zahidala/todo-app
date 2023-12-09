@@ -5,34 +5,44 @@ import { useState } from 'react';
 
 export default function App() {
 
-  const [isChecked, setIsChecked] = useState([])
-
-  interface ItemProps {
+  interface Todo {
     id: string;
     title: string;
     description: string;
+    isChecked: boolean
   }
 
-  const data = [
+  const [data, setData] = useState<Todo[]>([
     {
       id: "1",
       title: "First todo",
       description: "this is my first todo.",
+      isChecked: false,
     },
     {
       id: "2",
       title: "Second todo",
       description: "this is my second todo.",
-    }
-  ]
+      isChecked: false,
+    },
+  ])
 
-  // const Col: React.FC<{ children: React.ReactNode}> = ({ children }) => (
-  //   <View style={{flexDirection: 'column'}}>{children}</View>
-  // )
+  const setCheckBoxValue = (id: string) => {
+    setData((prevData) => 
+      prevData.map((item) =>item.id === id ? {...item, isChecked: !item.isChecked } : item
+      )
+    );
+  }
 
-  const Item = ({ title, description, id } : ItemProps) => (
+  console.log(data)
+
+  const Col: React.FC<{ children: React.ReactNode}> = ({ children }) => (
+    <View style={{flexDirection: 'column'}}>{children}</View>
+  )
+
+  const Item = ({ title, description, id, isChecked } : Todo) => (
     <View style={{padding: 10, margin: 10, flexDirection: 'row', gap: 20, alignItems: 'center'}}>
-      <Checkbox value={isChecked[parseInt(id)]} onValueChange={(newValue) => { setIsChecked({...isChecked, [id]: newValue})}} />
+      <Checkbox value={isChecked} onValueChange={ () => setCheckBoxValue(id)} />
       <View style={{flexDirection: 'column', gap: 10}}>
       <Text style={{fontWeight: 'bold', fontSize: 15}}>{title} </Text>
       <Text>{description} </Text>
@@ -44,7 +54,7 @@ export default function App() {
     <View style={styles.container}>
       <Text style={{padding: 20, fontSize: 32, alignSelf: "flex-start"}}>All Tasks</Text>
       <StatusBar style='auto'/>
-      <FlatList data={data} renderItem={({item}) => <Item id={item.id} title={item.title}  description={item.description} />} keyExtractor={item => item.id} />
+      <FlatList data={data} renderItem={({item}) => <Item {...item} />} keyExtractor={item => item.id} />
     </View>
   );
 }
