@@ -1,17 +1,23 @@
-import { Tabs } from 'expo-router'
+import { Pressable, Text } from 'react-native'
+import { router, Stack } from 'expo-router'
 
 export default function Layout() {
 	return (
-		<Tabs>
-			<Tabs.Screen
-				name='index'
+		<Stack>
+			<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+
+			<Stack.Screen
+				name='modal'
 				options={{
-					headerStyle: { backgroundColor: 'blue' },
-					headerTitle: 'All Todos',
-					headerTitleStyle: { color: 'white' },
-					tabBarLabel: 'All Todos',
+					headerLeft: () => (
+						<Pressable onPress={() => router.back()}>
+							<Text>Back</Text>
+						</Pressable>
+					),
+
+					presentation: 'modal',
 				}}
 			/>
-		</Tabs>
+		</Stack>
 	)
 }
