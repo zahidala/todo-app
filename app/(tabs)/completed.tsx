@@ -1,21 +1,27 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StyleSheet, Text, View } from 'react-native'
+import { TodosContext } from '../../contexts/TodosContext'
+import { useContext, useMemo } from 'react'
 import Checkbox from 'expo-checkbox'
-import todos from '../../constants/todos.json'
 
 export default function Completed() {
+	const { data } = useContext(TodosContext)
+
+	const filteredData = useMemo(
+		() => data.filter(({ completed }) => completed),
+		[data],
+	)
+
 	return (
 		<SafeAreaProvider>
 			<View style={styles.container}>
 				<View style={styles.todosContainer}>
-					{todos
-						.filter(({ completed }) => completed)
-						.map(todo => (
-							<View key={todo.id} style={styles.todoContainer}>
-								<Checkbox value={todo.completed} />
-								<Text style={styles.text}>{todo.title}</Text>
-							</View>
-						))}
+					{filteredData.map(todo => (
+						<View key={todo.id} style={styles.todoContainer}>
+							<Checkbox color={'gray'} value={todo.completed} />
+							<Text style={styles.text}>{todo.title}</Text>
+						</View>
+					))}
 				</View>
 			</View>
 		</SafeAreaProvider>
