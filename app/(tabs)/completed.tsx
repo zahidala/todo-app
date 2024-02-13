@@ -1,11 +1,11 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StyleSheet, Text, View } from 'react-native'
-import { TodosContext } from '../../contexts/TodosContext'
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
+import { useTodosContext } from '../../contexts/TodosContext'
 import Checkbox from 'expo-checkbox'
 
 export default function Completed() {
-	const { data } = useContext(TodosContext)
+	const { data } = useTodosContext()
 
 	const filteredData = useMemo(
 		() => data.filter(({ completed }) => completed),

@@ -2,13 +2,13 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import { router } from 'expo-router'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import { TodosContext } from '../../contexts/TodosContext'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
+import { useTodosContext } from '../../contexts/TodosContext'
 import Checkbox from 'expo-checkbox'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 export default function All() {
-	const { data, setData } = useContext(TodosContext)
+	const { data, setData } = useTodosContext()
 
 	const [editingKey, setEditingKey] = useState('')
 

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 import todos from '../constants/todos.json'
 
 interface TodosContextType {
@@ -7,6 +7,10 @@ interface TodosContextType {
 }
 
 export const TodosContext = createContext({} as TodosContextType)
+
+export function useTodosContext() {
+	return useContext(TodosContext)
+}
 
 export const TodosProvider = ({ children }: { children: ReactNode }) => {
 	const [data, setData] = useState(todos)
