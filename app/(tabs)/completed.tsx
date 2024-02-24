@@ -1,7 +1,7 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StyleSheet, Text, View } from 'react-native'
 import { useMemo } from 'react'
-import { useTodosContext } from '../../contexts/TodosContext'
+import { useTodosContext } from '@/contexts/TodosContext'
 import Checkbox from 'expo-checkbox'
 
 export default function Completed() {

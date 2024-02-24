@@ -25,6 +25,7 @@
     "@404-software/eslint-config": "^1.0.17",
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
+    "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.18.0",
     "prettier": "^2.7.1",
     "typescript": "^5.1.3"

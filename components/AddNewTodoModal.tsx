@@ -1,7 +1,7 @@
-import { Divider } from './Divider'
+import { Divider } from '@/components/Divider'
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
-import { useTodosContext } from '../contexts/TodosContext'
+import { useTodosContext } from '@/contexts/TodosContext'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 export const AddNewTodoModal = () => {

@@ -1,9 +1,9 @@
-import { AddNewTodoModal } from '../../components'
+import { AddNewTodoModal } from '@/components/AddNewTodoModal'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { useState } from 'react'
-import { useTodosContext } from '../../contexts/TodosContext'
+import { useTodosContext } from '@/contexts/TodosContext'
 import Checkbox from 'expo-checkbox'
 
 export default function All() {

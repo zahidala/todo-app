@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router'
-import { TodosProvider } from '../contexts/TodosContext'
+import { TodosProvider } from '@/contexts/TodosContext'
 
 export default function Layout() {
 	return (
