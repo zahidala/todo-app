@@ -1,11 +1,10 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import { router } from 'expo-router'
+import { AddNewTodoModal } from '../../components'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { useState } from 'react'
 import { useTodosContext } from '../../contexts/TodosContext'
 import Checkbox from 'expo-checkbox'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 export default function All() {
 	const { data, setData } = useTodosContext()
@@ -69,17 +68,7 @@ export default function All() {
 					))}
 				</View>
 
-				<View style={styles.buttonContainer}>
-					<Pressable
-						style={({ pressed }) => [
-							{ backgroundColor: pressed ? '#00339A' : 'blue' },
-							styles.button,
-						]}
-						onPress={() => router.push('/modal')}
-					>
-						<FontAwesome color={'white'} name='plus' size={15} />
-					</Pressable>
-				</View>
+				<AddNewTodoModal />
 			</View>
 		</SafeAreaProvider>
 	)
