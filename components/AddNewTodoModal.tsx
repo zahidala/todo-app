@@ -1,12 +1,19 @@
 import {
 	Box,
 	Divider,
+	FormControl,
+	FormControlError,
+	FormControlErrorIcon,
+	FormControlErrorText,
+	FormControlLabel,
+	FormControlLabelText,
 	Input,
 	InputField,
 	Toast,
 	ToastTitle,
 	useToast,
 } from '@gluestack-ui/themed'
+import { Controller, useForm } from 'react-hook-form'
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import { useTodosContext } from '@/contexts/TodosContext'
@@ -14,7 +21,13 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 export const AddNewTodoModal = () => {
 	const [open, setOpen] = useState(false)
-	const [text, setText] = useState('')
+
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<{ title: string }>()
 
 	const { data, setData } = useTodosContext()
 
@@ -46,11 +59,19 @@ export const AddNewTodoModal = () => {
 				animationType='slide'
 				presentationStyle='pageSheet'
 				visible={open}
-				onRequestClose={() => setOpen(false)}
+				onRequestClose={() => {
+					reset()
+					setOpen(false)
+				}}
 			>
 				<View style={{ flex: 1 }}>
 					<View style={styles.header}>
-						<Pressable onPress={() => setOpen(false)}>
+						<Pressable
+							onPress={() => {
+								reset()
+								setOpen(false)
+							}}
+						>
 							{({ pressed }) => (
 								<Text
 									style={{
@@ -66,21 +87,28 @@ export const AddNewTodoModal = () => {
 						<Text style={{ fontSize: 16, fontWeight: 'bold' }}>New Todo</Text>
 
 						<Pressable
-							onPress={() => {
-								handleAddNewTodo(text)
-								setOpen(false)
-								toast.show({
-									placement: 'top',
-									render: ({ id }) => {
-										const toastId = `toast-${id}`
-										return (
-											<Toast action='info' nativeID={toastId} variant='accent'>
-												<ToastTitle>Todo added!</ToastTitle>
-											</Toast>
-										)
-									},
-								})
-							}}
+							onPress={handleSubmit(data => {
+								handleAddNewTodo(data.title)
+								if (!errors.title) {
+									setOpen(false)
+									reset()
+									toast.show({
+										placement: 'top',
+										render: ({ id }) => {
+											const toastId = `toast-${id}`
+											return (
+												<Toast
+													action='info'
+													nativeID={toastId}
+													variant='accent'
+												>
+													<ToastTitle>Todo added!</ToastTitle>
+												</Toast>
+											)
+										},
+									})
+								}
+							})}
 						>
 							{({ pressed }) => (
 								<Text
@@ -98,13 +126,41 @@ export const AddNewTodoModal = () => {
 					<Divider />
 
 					<Box p={'$3'}>
-						<Input variant='outline'>
-							<InputField
-								placeholder='Title'
-								type='text'
-								onChangeText={text => setText(text)}
+						<FormControl
+							isInvalid={errors.title ? true : false}
+							size='md'
+							isRequired
+						>
+							<FormControlLabel pb='$1'>
+								<FormControlLabelText>Title</FormControlLabelText>
+							</FormControlLabel>
+
+							<Controller
+								control={control}
+								name='title'
+								render={({ field: { onChange, onBlur, value } }) => (
+									<Input variant='outline'>
+										<InputField
+											placeholder='Title'
+											type='text'
+											value={value}
+											onBlur={onBlur}
+											onChangeText={onChange}
+										/>
+									</Input>
+								)}
+								rules={{ required: true }}
 							/>
-						</Input>
+
+							{errors.title && (
+								<FormControlError>
+									<FormControlErrorIcon>
+										<FontAwesome color='darkred' name='exclamation-circle' />
+									</FormControlErrorIcon>
+									<FormControlErrorText>Title is required</FormControlErrorText>
+								</FormControlError>
+							)}
+						</FormControl>
 					</Box>
 				</View>
 			</Modal>
