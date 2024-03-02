@@ -1,7 +1,14 @@
 import { AddNewTodoModal } from '@/components/AddNewTodoModal'
+import {
+	Keyboard,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { useState } from 'react'
 import { useTodosContext } from '@/contexts/TodosContext'
 import Checkbox from 'expo-checkbox'
@@ -32,44 +39,51 @@ export default function All() {
 
 	return (
 		<SafeAreaProvider>
-			<View style={styles.container}>
-				<StatusBar style='auto' />
+			<TouchableWithoutFeedback
+				onPress={() => {
+					Keyboard.dismiss
+					setEditingKey('')
+				}}
+			>
+				<View style={styles.container}>
+					<StatusBar style='auto' />
 
-				<View style={styles.todosContainer}>
-					{data.map(todo => (
-						<View key={todo.id} style={styles.todoContainer}>
-							<Checkbox
-								value={todo.completed}
-								onValueChange={value => handleChange(todo, undefined, value)}
-							/>
-
-							{editingKey === todo.id ? (
-								<TextInput
-									style={{
-										borderColor: '#ccc',
-										borderRadius: 5,
-										borderWidth: 1,
-										flex: 1,
-										padding: 3,
-									}}
-									value={todo.title}
-									onChangeText={text => handleChange(todo, text)}
-									onSubmitEditing={() => setEditingKey('')}
+					<View style={styles.todosContainer}>
+						{data.map(todo => (
+							<View key={todo.id} style={styles.todoContainer}>
+								<Checkbox
+									value={todo.completed}
+									onValueChange={value => handleChange(todo, undefined, value)}
 								/>
-							) : (
-								<Text
-									style={{ flex: 1 }}
-									onPress={() => setEditingKey(todo.id)}
-								>
-									{todo.title}
-								</Text>
-							)}
-						</View>
-					))}
-				</View>
 
-				<AddNewTodoModal />
-			</View>
+								{editingKey === todo.id ? (
+									<TextInput
+										style={{
+											borderColor: '#ccc',
+											borderRadius: 5,
+											borderWidth: 1,
+											flex: 1,
+											padding: 3,
+										}}
+										value={todo.title}
+										onChangeText={text => handleChange(todo, text)}
+										onSubmitEditing={() => setEditingKey('')}
+									/>
+								) : (
+									<Text
+										style={{ flex: 1 }}
+										onPress={() => setEditingKey(todo.id)}
+									>
+										{todo.title}
+									</Text>
+								)}
+							</View>
+						))}
+					</View>
+
+					<AddNewTodoModal />
+				</View>
+			</TouchableWithoutFeedback>
 		</SafeAreaProvider>
 	)
 }
